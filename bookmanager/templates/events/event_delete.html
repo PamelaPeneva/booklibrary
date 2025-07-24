@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <h3 class="card-title text-danger">Confirm Delete</h3>
+      <p class="card-text">
+        Are you sure you want to delete the event:
+        <strong class="text-dark">{{ event.title }}</strong>?
+      </p>
+
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ request.path }}">
+        <a href="{% url 'event_list' %}" class="btn btn-secondary">Cancel</a>
+        <button type="submit" class="btn btn-danger">Delete</button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

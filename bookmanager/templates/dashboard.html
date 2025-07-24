@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="text-primary">Your Books</h1>
+  </div>
+
+  {% if fav_books %}
+    <ul class="list-group">
+      {% for book in fav_books %}
+        <li class="list-group-item d-flex align-items-center justify-content-between">
+          <div>
+            <strong>{{ book.title }}</strong> by {{ book.author }}
+            <span class="text-muted">({{ book.published }})</span>
+          </div>
+          <div class="d-flex align-items-center gap-2">
+            <a href="{% url 'book_details' book.pk %}" class="btn btn-primary btn-sm">Details</a>
+
+          
+{#                   add to fav           #}
+            {% if user.is_authenticated %}
+              <form action="{% url 'toggle_favorite' book.id %}" method="post" class="d-inline">
+                {% csrf_token %}
+              
+                <input type="hidden" name="next" value="{{ request.get_full_path  }}">
+                <button type="submit" class="btn btn-link p-0 m-0 align-middle" style="color: inherit;">
+                  {% if book in user.fav_books.all %}
+                    <i class="fa fa-heart text-danger"></i>
+                  {% else %}
+                    <i class="fa fa-heart-o text-secondary"></i>
+                  {% endif %}
+                </button>
+              </form>
+            {% endif %}
+        </div>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <div class="alert alert-warning">
+      No books.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+

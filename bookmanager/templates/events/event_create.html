@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 600px; width: 100%;">
+    <h2 class="mb-4 text-center">Add New Event</h2>
+
+    <form method="post" novalidate>
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary btn-lg">Create Event</button>
+      </div>
+    </form>
+
+    <div class="text-center mt-4">
+      <a href="{% url 'index' %}" class="btn btn-outline-secondary">&larr; Back</a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

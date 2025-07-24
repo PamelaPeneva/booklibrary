@@ -1,0 +1,91 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="text-primary">📚 Books</h1>
+    {% if perms.books.add_book %} 
+        <a href="{% url 'book_create' %}" class="btn btn-success">➕ Add a New Book</a>
+    {% endif %}
+  </div>
+
+{#      search form  #}
+<form method="get" action="">
+    {{ form.search_query }}
+    {{ form.date_search_query }}
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+
+  {% if page_obj.object_list %}
+    <ul class="list-group">
+      {% for book in page_obj.object_list %}
+
+          <li class="list-group-item d-flex align-items-center justify-content-between">
+              <div>
+                <strong>{{ book.title }}</strong> by {{ book.author }}
+                <span class="text-muted">({{ book.published }})</span>
+              </div>
+{#                        edit delete details            #}
+              <div>
+                {% if perms.books.delete_book %}
+                    <a href="{% url 'book_delete' book.pk %}" class="me-3">delete</a>
+                {% endif %}
+                {% if perms.books.change_book %}
+                    <a href="{% url 'book_edit' book.pk %}" class="me-3">edit</a>
+                {% endif %}
+
+                <a href="{% url 'book_details' book.pk %}" class="me-3">details</a>
+
+{#                         add to fav             #}
+                {% if user.is_authenticated %}
+                  <form action="{% url 'toggle_favorite' book.id %}" method="post" class="d-inline">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                    <button type="submit" class="btn btn-link p-0 m-0 align-middle" style="color: inherit;">
+                      {% if book in user.fav_books.all %}
+                        <i class="fa fa-heart text-danger"></i>
+                      {% else %}
+                        <i class="fa fa-heart-o text-secondary"></i>
+                      {% endif %}
+                    </button>
+                  </form>
+                {% endif %}
+              </div>
+          </li>
+
+      {% endfor %}
+    </ul>
+
+
+
+  <div class="pagination">
+
+        <span>
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_previous %}
+            <a href="?page=1{% if form.search_query.value %}&search_query={{ form.search_query.value }}{% endif %}">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}{% if form.search_query.value %}&search_query={{ form.search_query.value }}{% endif %}">&lsaquo; prev</a>
+        {% endif %}
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{% if form.search_query.value %}&search_query={{ form.search_query.value }}{% endif %}">next &rsaquo;</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}{% if form.search_query.value %}&search_query={{ form.search_query.value }}{% endif %}">last &raquo;</a>
+        {% endif %}
+    </div>
+
+  {% else %}
+    <div class="alert alert-warning">
+      No books available. Click "Add a New Book" to get started.
+    </div>
+  {% endif %}
+
+</div>
+
+{% endblock %}
+
+
+

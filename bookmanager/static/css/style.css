@@ -1,0 +1,37 @@
+
+body {
+  padding-bottom: 100px;
+}
+
+footer {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    padding: 40px;
+    background: #f9f9f9;
+}
+
+.icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.icon:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Platform colors */
+.instagram { background: #E1306C; }
+.facebook  { background: #1877F2; }
+.youtube   { background: #FF0000; }
+.twitter   { background: #1DA1F2; }
+.github    { background: #333333; }

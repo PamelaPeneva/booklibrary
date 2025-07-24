@@ -1,0 +1,113 @@
+{% extends '../base.html' %}
+
+{% load crispy_forms_tags %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+<div class="container mt-5">
+
+    {# avg rating n user rating #}
+    <p>Average rating: {{ average_rating|floatformat:1|default:"No ratings yet" }}</p>
+    {% if user.is_authenticated and user_rating %}
+        <p class="text-info"> You rated this book: <strong>{{ user_rating }}/5</strong></p>
+    {% endif %}
+
+    {#  info  #}
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2>{{ book.title }}</h2>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Published:</strong> {{ book.published }}</p>
+            <p><strong>Genres:</strong>
+              {% for genre in all_genres %}
+                {{ genre.name }}{% if not forloop.last %}, {% endif %}
+              {% empty %}
+                No genres assigned.
+              {% endfor %}
+            </p>
+            <p>{{ book.content }}</p>
+              {% if book.pdf_file %}
+                  {% if user.is_authenticated %}
+                    <a href="{% url 'book_download' book.pk %}" class="btn btn-success">📥 Download PDF</a>
+                  {% else %}
+                    <p><a href="{% url 'login' %}?next={{ request.path }}">Log in</a> to download the PDF.</p>
+                  {% endif %}
+                {% else %}
+                  <p><em>No PDF available.</em></p>
+            {% endif %}
+        </div>
+    </div>
+
+    {# rating form #}
+    <div>
+        {% if user.is_authenticated %}
+            <form method="post" class="d-flex align-items-center gap-2">
+                {% csrf_token %}
+              
+                <input type="hidden" name="form_type" value="rating">
+                {{ rating_form}}
+                
+                <button type="submit" class="btn btn-primary">Submit Rating</button>
+            </form>
+        {% else %}
+            <p><a href="{% url 'login' %}">Login</a> to rate this book.</p>
+        {% endif %}
+    </div>
+
+    {# comment form #}
+    <div class="card mb-4">
+        <div class="card-header">Add a Comment</div>
+        <div class="card-body">
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <input type="hidden" name="form_type" value="comment">
+                {{ comment_form|crispy }}
+                
+                <button type="submit" class="btn btn-primary">Add a Comment</button>
+
+                {#      emoji picker          #}
+                <button type="button" id="emoji-btn" class="btn btn-light border">😀</button>
+                <div
+                  id="custom-emoji-picker"
+                  class="position-absolute bg-white border rounded shadow p-2 flex-wrap gap-2"
+                >
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">❤️</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">👏</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">👍</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">😂</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">💩</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">🤮</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">💯</span>
+                  <span class="emoji fs-4" role="button" style="cursor:pointer;">🍆</span>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+    {# all comments #}
+    <div class="card">
+        <div class="card-header">Comments</div>
+        <div class="card-body">
+            {% for comment in comments.all %}
+                <div class="mb-3 border-bottom pb-2">
+                    <p><strong>Author:</strong> {{ comment.author }}</p>
+                    <p>{{ comment.content }}</p>
+                    <small class="text-muted">{{ comment.created_at|date:"F j, Y, H:i" }}</small>
+                </div>
+            {% empty %}
+                <p>No comments yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+          <a href="{% url 'book_list' %}" class="btn btn-outline-primary">
+            &larr; Back to Book List
+          </a>
+    </div>
+
+</div>
+{% endblock %}

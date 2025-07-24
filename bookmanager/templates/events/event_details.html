@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow-lg p-4" style="max-width: 700px; width: 100%;">
+    <h2 class="mb-4 text-center">{{ event.title }}</h2>
+
+    <p><strong>When:</strong> 
+      <span class="badge bg-info text-dark">
+        {{ event.start_time|date:"M d, Y H:i" }} to {{ event.end_time|date:"M d, Y H:i" }}
+      </span>
+    </p>
+
+    <p><strong>Location:</strong> 
+      <span class="badge bg-secondary">{{ event.location }}</span>
+    </p>
+
+    {% if event.description %}
+      <div class="mt-4">
+        <h5>Description:</h5>
+        <p class="lead">{{ event.description }}</p>
+      </div>
+    {% endif %}
+
+    <div class="text-center mt-4">
+      <a href="{% url 'event_list' %}" class="btn btn-outline-primary">
+        &larr; Back to Events
+      </a>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

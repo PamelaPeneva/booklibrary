@@ -1,0 +1,10 @@
+venv/
+*.pyc
+__pycache__/
+.env
+.idea/
+.DS_Store
+dist/
+*.bak
+*.old
+.envrc

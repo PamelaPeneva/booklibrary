@@ -1,0 +1,17 @@
+{% extends '../base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+  <div class="card shadow p-4" style="width: 100%; max-width: 600px;">
+    <h1 class="mb-4 text-center">Add Book</h1>
+    <form method="POST" novalidate>
+      {% csrf_token %}
+      {{ form|crispy }}
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-primary">Delete</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

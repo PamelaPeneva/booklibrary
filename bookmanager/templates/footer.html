@@ -1,0 +1,19 @@
+<footer class="bg-dark py-3 fixed-bottom border-top">
+  <div class="container d-flex justify-content-center justify-content-md-between align-items-center gap-3">
+    <div class="d-flex gap-3">
+      <a href="https://instagram.com/" class="icon instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com/" class="icon facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://youtube.com/" class="icon youtube"><i class="fab fa-youtube"></i></a>
+      <a href="https://twitter.com/" class="icon twitter"><i class="fab fa-twitter"></i></a>
+      <a href="https://github.com/" class="icon github"><i class="fab fa-github"></i></a>
+    </div>
+
+    {#   novalidate disables the browser’s built-in HTML5 validation (so no yellow tooltip popups or inline messages).  #}
+    <form method="POST" action="{% url 'subscribe' %}" novalidate class="d-flex align-items-center">
+      {% csrf_token %}
+      {{ subscribe_form.email  }}
+      <button type="submit" class="btn btn-primary ms-2">Subscribe</button>
+    </form>
+
+  </div>
+</footer>
