@@ -1,36 +1,57 @@
-Final project for SoftUni Django Advanced
+# 📘 Final Project – SoftUni Django Advanced
 
-Full CRUD functionality for books & events
-Searching and Filtering 
+A Django-based web application for managing a Book and Event Library with full CRUD functionality, user permissions, REST API, and advanced frontend features.
 
-User Permissions and Authentication:
--Extended user model
--User registration and login/logout, Groups, Permissions
--Only logged-in users can access certain pages
--Admin users can manage all books/events/users
--Mods have POST EDIT perms
--Superusers have Delete perms
--Regular user only READ perms
+---
 
-Admin:
--Customized Admin interface
+## 🔧 Core Features
 
-DRF:
--One RESTful API endpoint
--Nested serializer 
+### 📚 Full CRUD Functionality
+- Books and Events
+- Search and Filtering
 
-Other functionality:
--Handling Media files
--Commenting
--Rating 
--Add/Remove from favorite logic
--Email subscription form
--Custom emoji picker with JavaScript
+---
 
-Frontend:
--DTL
--Bootsrap + CSS
+### 🔐 User Permissions and Authentication
+- Extended user model
+- User registration and login/logout
+- Groups and permission system
+- Page access limited to logged-in users
+- Admins: Full control over books/events/users
+- Moderators: Can create and edit
+- Superusers: Can delete
+- Regular users: Read-only access
 
-10+ Models, Templates, CBVs, URLs, Forms 
-1 MIXIN, 
-1 CONTEXT PROCESSOR
+---
+
+### ⚙️ Admin
+- Customized Django Admin interface
+
+---
+
+### 🌐 Django REST Framework (DRF)
+- One RESTful API endpoint for listing books
+- Nested serializer for related models
+
+---
+
+### ✨ Other Functionality
+- Media file handling (e.g. book covers, event images)
+- Commenting system
+- Star rating system
+- Add/remove from favorites
+- Email subscription form
+- Custom emoji picker using JavaScript
+
+---
+
+### 🎨 Frontend
+- Django Template Language (DTL)
+- Bootstrap & custom CSS
+
+---
+
+### 🛠️ Architecture
+- 10+ Models, Templates, Class-Based Views (CBVs), URLs, and Forms
+- 1 Custom Mixin
+- 1 Context Processor
