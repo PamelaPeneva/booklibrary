@@ -29,7 +29,6 @@ def index(request):
 
 @login_required
 def dashboard(request):
-    # show favorite books
     user = request.user
     fav_books = user.fav_books.all()
 
@@ -59,10 +58,8 @@ def book_list(request):
         if date_search_query:
             books = books.filter(published__year=date_search_query)
 
-    # Reapply ordering after filtering
     books = books.order_by('title')
 
-    # 10 books per page
     paginator = Paginator(books, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -155,13 +152,11 @@ def book_details(request, pk):
 def toggle_favorite(request, book_id):
     book = Book.objects.get(pk=book_id)
     user = request.user
-    #  add remove book from fav
     if book in user.fav_books.all():
         user.fav_books.remove(book)
     else:
         user.fav_books.add(book)
 
-    # Redirect to 'next' if provided, else fallback
     next_url = request.POST.get('next')
     if next_url:
         return redirect(next_url)
@@ -173,14 +168,19 @@ def subscribe_view(request):
         form = EmailSubscriptionForm(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
-            # dont raise error if the email already exists
+
             subscriber, created = Subscriber.objects.get_or_create(email=email)
+
             if created:
                 messages.success(request, 'Thanks for subscribing!')
             else:
                 messages.error(request, 'You are already subscribed.')
         else:
             messages.error(request, 'Invalid email, please try again.')
+
+    next_url = request.POST.get('next')
+    if next_url:
+        return redirect(next_url)
     return redirect('index')
 
 @login_required

@@ -8,10 +8,10 @@
       <a href="https://github.com/" class="icon github"><i class="fab fa-github"></i></a>
     </div>
 
-    {#   novalidate disables the browser’s built-in HTML5 validation (so no yellow tooltip popups or inline messages).  #}
     <form method="POST" action="{% url 'subscribe' %}" novalidate class="d-flex align-items-center">
       {% csrf_token %}
       {{ subscribe_form.email  }}
+      <input type="hidden" name="next" value="{{ request.get_full_path  }}">
       <button type="submit" class="btn btn-primary ms-2">Subscribe</button>
     </form>
 
